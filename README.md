@@ -11,3 +11,4 @@
   - Mint.sol에서 mint 진행 -> setApprovalForAll에서 (판매 주소, true) transact
   - Sale.sol에서 Id값 입력 및 가격(price)책정 (이후에 Id: 가격, 배열[idx]를 통해 조회 가능)
   - Account value에 책정된 가격을 입력하고 구매 진행 (이때 Account는 판매자와 다르게 진행할 것.)
+  - remix 실행 명령어: yarn remixd -s . --remix-ide https://remix.ethereum.org
