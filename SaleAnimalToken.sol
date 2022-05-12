@@ -46,4 +46,40 @@ contract SaleAnimalToken {
 
         onSaleAnimalTokenArray.push(_animalTokenId);
     }
+
+    function purchaseAnimalToken(uint256 _animalTokenId) public payable {
+        uint256 price = animalTokenPrices[_animalTokenId];
+        // 토큰 주인의 주소 정의
+        address animalTokenOwner = mintAnimalTokenAddress.ownerOf(_animalTokenId);
+
+        require(price > 0, "Animal token not sale");
+        require(price <= msg.value, "Caller sent lower than price.");
+        // msg.value 이 함수를 실행할 때 보내는 매직의 양? 전달 된 이더 값?
+        // 여기서 매직은 뭘 말하는 건지: 구매자가 사려고 전달하는 값인것 같음.
+        require(animalTokenOwner != msg.sender, "Caller is animal token owner");
+        // 토큰 주인이 이 요청을 할 수 없게 막는 require문
+
+        // animalTokenOwner에게 msg.value를 전달
+        // 토큰을 구매하기 위해 Ownerd에게 값을 지불했다.
+        payable(animalTokenOwner).transfer(msg.value);
+        // (보내는 사람, 받는사람, 보낼 값: TokenId)
+        mintAnimalTokenAddress.safeTransferFrom(animalTokenOwner, msg.sender, _animalTokenId);
+
+        // 토큰의 값을 0으로 만듦 why? 32번 require문 참조.
+        animalTokenPrices[_animalTokenId] = 0;
+
+        // 이 for문 이해 못하면 그냥 개발공부 접자? ^^ (이해했다는 뜻.)
+        for (uint256 i = 0; i < onSaleAnimalTokenArray.length; i++) {
+            if(animalTokenPrices[onSaleAnimalTokenArray[i]] == 0) {
+                onSaleAnimalTokenArray[i] = onSaleAnimalTokenArray[onSaleAnimalTokenArray.length - 1];
+                onSaleAnimalTokenArray.pop();
+            }
+        }
+    }
+
+    // 앞단(FrontEnd)에서 활용 할 함수
+    // 20Line for문 돌려서 항목을 조회할 수 있도록 하는 함수.
+    function getOnSaleAnimalArrayLength() view public returns (uint256) {
+        return onSaleAnimalTokenArray.length;
+    }
 }
