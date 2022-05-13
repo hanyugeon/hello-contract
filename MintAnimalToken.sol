@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.0;
 
+// 오픈제플린 가져오기.
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract MintAnimalToken is ERC721Enumerable {
@@ -12,6 +13,7 @@ contract MintAnimalToken is ERC721Enumerable {
     // TokenId 입력하면 animalTypes 나온다.
 
     function mintAnimalToken() public {
+        // totalSupply() ERC721 토큰의 전체 발행량
         uint256 animalTokenId = totalSupply() + 1;
 
         uint256 animalType = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender, animalTokenId))) % 5 + 1;
@@ -23,4 +25,5 @@ contract MintAnimalToken is ERC721Enumerable {
         // msg.sender = _mint를 실행 한 사람
         // animalTokenId = admin이 가지고 있는 TokenId
     }
+
 }

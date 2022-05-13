@@ -23,6 +23,7 @@ contract SaleAnimalToken {
     function setForSaleAnimalToken(uint256 _animalTokenId, uint _price) public {
         // 주인이 판매 등록, 토큰Id를 넣으면 주인이 누구인지 출력(ownerOf())
         address animalTokenOwner = mintAnimalTokenAddress.ownerOf(_animalTokenId);
+        // ownerOf(): tokenId를 변수로 받아 address를 반환한다.
 
         require(animalTokenOwner == msg.sender, "Caller is not animal token owner.");
         require(_price > 0, "Price is zero or lower.");
@@ -30,6 +31,12 @@ contract SaleAnimalToken {
         require(mintAnimalTokenAddress.isApprovedForAll(animalTokenOwner, address(this)), "Animal token owner did not approve token.");
         // animalTokenOwner: 주인, address(this): 이 SaleAnimalToken의 스마트 컨트랙트를 입력해줌.
         // 주인이 이 파일(스마트 컨트랙트)의 판매권한을 넘겼는지?
+        // isApprovalForAll 배너에서 주소와 true boolean 전달 해서 판매권한 오픈
+
+        animalTokenPrices[_animalTokenId] = _price;
+
+        onSaleAnimalTokenArray.push(_animalTokenId);
+
         /**
         * 처음부터 deploy 시작
         * MintAnimalToken.sol -> 주소 복사 -> SaleAnimalToken.sol(주소 붙여넣기)
@@ -41,10 +48,6 @@ contract SaleAnimalToken {
         * animalTokenPrices에 1 넣어서 _price 확인해보기 => 10
         * onSaleAnimalTokenArray에 idx값 0 넣어서 return 값이 1인지 확인해보기 => 1
         */
-
-        animalTokenPrices[_animalTokenId] = _price;
-
-        onSaleAnimalTokenArray.push(_animalTokenId);
     }
 
     function purchaseAnimalToken(uint256 _animalTokenId) public payable {
