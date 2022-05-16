@@ -85,4 +85,9 @@ contract SaleAnimalToken {
     function getOnSaleAnimalArrayLength() view public returns (uint256) {
         return onSaleAnimalTokenArray.length;
     }
+
+    function getAnimalTokenPrice(uint256 _animalTokenId) view public returns (uint256) {
+        // mapping 이므로 []로 조회한다.
+        return animalTokenPrices[_animalTokenId];
+    }
 }
