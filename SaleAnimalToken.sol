@@ -73,7 +73,7 @@ contract SaleAnimalToken {
 
         // 이 for문 이해 못하면 그냥 개발공부 접자? ^^ (이해했다는 뜻.)
         for (uint256 i = 0; i < onSaleAnimalTokenArray.length; i++) {
-            if(animalTokenPrices[onSaleAnimalTokenArray[i]] == 0) {
+            if (animalTokenPrices[onSaleAnimalTokenArray[i]] == 0) {
                 onSaleAnimalTokenArray[i] = onSaleAnimalTokenArray[onSaleAnimalTokenArray.length - 1];
                 onSaleAnimalTokenArray.pop();
             }
