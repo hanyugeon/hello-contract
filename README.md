@@ -1,7 +1,3 @@
-# TIL
-
-## 22.05.12
-
 - 민팅 스마트 컨트랙트 작성
 - 판매 스마트 컨트랙트 작성(+ 구매함수)
 - remix IDE를 통해 민팅, 가격 책정, 구매 및 판매 실습 완료
@@ -12,3 +8,13 @@
   - Sale.sol에서 Id값 입력 및 가격(price)책정 (이후에 Id: 가격, 배열[idx]를 통해 조회 가능)
   - Account value에 책정된 가격을 입력하고 구매 진행 (이때 Account는 판매자와 다르게 진행할 것.)
   - remix 실행 명령어: yarn remixd -s . --remix-ide https://remix.ethereum.org
+
+- 처음부터 deploy 시작
+- MintAnimalToken.sol -> 주소 복사 -> SaleAnimalToken.sol(주소 붙여넣기)
+- 민팅 1회 시행 -> TokenId: 1 _price: 10 실행
+- 에러 발생: 4번째 require문에서 에러 발생했음.
+- Mint에서 isApprovedForAll(account주소, Sale.sol 주소) => 실행 => 에러
+- Mint에서 setApprovalForAll(Sale.sol 주소, true) => 실행
+- 이후 다시 Sale.sol가서 setForSaleAnimalToken 실행 해보기 (성공)
+- animalTokenPrices에 1 넣어서 _price 확인해보기 => 10
+- onSaleAnimalTokenArray에 idx값 0 넣어서 return 값이 1인지 확인해보기 => 1
